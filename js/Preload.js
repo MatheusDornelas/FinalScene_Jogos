@@ -14,6 +14,9 @@ SpaceHipster.Preload.prototype = {
 
   	//load game assets
     this.load.image('space', 'assets/images/space.png');
+    this.load.image('backMenu', 'assets/images/main_menu.png');
+    this.load.image('buttonPlay', 'assets/images/play.png');
+    this.load.image('title', 'assets/images/title.png');
 
     this.load.image('powerup', 'assets/images/powerup-mushroom.png');
   	this.load.spritesheet('rock', 'assets/images/rocks_rotated.png', 256, 256);
