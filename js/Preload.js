@@ -16,7 +16,8 @@ SpaceHipster.Preload.prototype = {
     this.load.image('space', 'assets/images/space.png');
 
     this.load.image('powerup', 'assets/images/powerup-mushroom.png');
-  	this.load.image('rock', 'assets/images/rock.png');
+  	this.load.spritesheet('rock', 'assets/images/rocks_rotated.png', 256, 256);
+    //this.load.image('rock', 'assets/images/rock1.png');
     this.load.spritesheet('building', 'assets/images/spritePredioDireito.png', 500, 243);
     this.load.spritesheet('building2', 'assets/images/spritePredioEsquerdo.png', 500, 254);
     this.load.spritesheet('playership', 'assets/images/player.png', 12, 12);

@@ -16,7 +16,7 @@ SpaceHipster.Game.prototype = {
 
 	//create player
 	this.player = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, 'playership');
-	this.player.scale.setTo(2);
+	this.player.scale.setTo(4);
 
 	this.player.animations.add('fly', [0, 1, 2, 3], 5, true);
 	this.player.animations.play('fly');
@@ -29,10 +29,10 @@ SpaceHipster.Game.prototype = {
 	this.playerSpeed = 120;
 	this.player.body.collideWorldBounds = true;
   this.player.body.bounce.setTo(0.7, 0.7);
-
+  this.BoolParedePlayer1 = false;
   //create 2nd player
   this.player2 = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY , 'enemy');
-  this.player2.scale.setTo(2);
+  this.player2.scale.setTo(4);
 
   
   this.player2.animations.add('fly', [0, 1, 2, 3], 5, true);
@@ -47,7 +47,7 @@ SpaceHipster.Game.prototype = {
   this.playerSpeed = 120;
   this.player2.body.collideWorldBounds = true;
   this.player2.body.bounce.setTo(0.7, 0.7);
-  
+  this.BoolParedePlayer2 = false;
 
 
 
@@ -78,7 +78,6 @@ SpaceHipster.Game.prototype = {
   
   this.rock = this.game.add.group();
   this.rock.enableBody = true;
- // this.building.setAll('body.collideWorldBounds', true);
   this.rock.physicsBodyType = Phaser.Physics.ARCADE;
   this.game.physics.arcade.enable(this.rock);
 
@@ -108,42 +107,29 @@ SpaceHipster.Game.prototype = {
   this.game.physics.arcade.collide(this.player2, this.player);
   this.game.physics.arcade.collide(this.player2, this.exp, this.matarPlayer, null, this);
   this.game.physics.arcade.collide(this.player, this.exp, this.matarPlayer, null, this);
-  //this.game.physics.arcade.collide(this.player, this.exp, this.hitAsteroid, null, this);
-  //this.game.physics.arcade.collide(this.player2, this.exp, this.hitAsteroid, null, this);
-  //this.game.physics.arcade.collide(this.player2, this.exp, this.hitAsteroid, null, this);
-	//this.game.physics.arcade.collide(this.player, this.building, this.hitAsteroid, null, this);
-  //this.game.physics.arcade.collide(this.player, this.exp, this.hitAsteroid, null, this);
+
 
   },
   generateBuilding: function() {
-
-
     var numBuildings = 100;
-
     var j = 0;
-    var g = 0;
-
   for (var i = 0; i<numBuildings; i++) {
 
       building1 = this.building.create(0, j, 'building', this.game.rnd.integerInRange(0, 3));
-      //building2 = this.building.create(this.game.world.width-205, 30, 'building2', this.game.rnd.integerInRange(0, 3));
       building1.scale.setTo(0.4);
-      //building2.scale.setTo(0.4);
+
       j = j + 93;
-      //g = g + (246);
-      
+
       building1.body.immovable = true;
       building1.body.velocity.y = -50;
       building1.body.collideWorldBounds = false;
-
-      //building2.body.velocity.y = -50;
-      //building2.body.collideWorldBounds = false;
     }
   },
   generateBuilding2: function() {
     var numBuildings = 100;
     var g = -3;
     for(var i = 0; i<numBuildings; i++){
+
       building2 = this.building.create(this.game.world.width-205, g, 'building2', this.game.rnd.integerInRange(0, 3));
       building2.scale.setTo(0.4);
 
@@ -152,10 +138,7 @@ SpaceHipster.Game.prototype = {
       building2.body.immovable = true;
       building2.body.velocity.y = -50;
       building2.body.collideWorldBounds = false;
-
     }
-      
-
   },
   /*generateAsteriods: function() {
     this.asteroids = this.game.add.group();
@@ -183,86 +166,119 @@ SpaceHipster.Game.prototype = {
   */
    colisaoParede: function() {
       //boolean player2Alive = ;
-      if( (this.player2.x <= 200) && (this.player2.alive) ){
-        this.hitParede(this.player2);
-      }else if(this.player2.x >= 578 && (this.player2.alive)  ){
-        this.hitParede(this.player2);
-      }
       if(this.player.x <= 200 && (this.player.alive)){
-        this.hitParede(this.player);
+        this.hitParede(this.player,this.BoolParedePlayer1);
       }else if(this.player.x >= 578 && (this.player.alive)){
-        this.hitParede(this.player);
+        this.hitParede(this.player,this.BoolParedePlayer1);
       }
+
+
+      if( (this.player2.x <= 200) && (this.player2.alive) ){
+        this.hitParede(this.player2, this.BoolParedePlayer2);
+      }else if(this.player2.x >= 578 && (this.player2.alive)  ){
+        this.hitParede(this.player2,this.BoolParedePlayer2);
+      }
+
   
   },
   movimentoPlayer: function(){
       if (this.game.input.keyboard.isDown(Phaser.Keyboard.A))
           { 
-              if(this.player2.body.velocity.x >= -300){
-                this.player2.body.velocity.x -= 5;
-              }
+                this.player2.body.velocity.x -= 4;
+              
               this.player2.angle = -15;
+              if(this.player2.x<=201 || this.player2.x>= 579){
+                this.BoolParedePlayer2 = false;
+              }
               //leftBtn.alpha = 0.6;
           }
-          else if (this.game.input.keyboard.isDown(Phaser.Keyboard.D))
+      else if (this.game.input.keyboard.isDown(Phaser.Keyboard.D))
           {
-              if(this.player2.body.velocity.x <= 300){
-                this.player2.body.velocity.x += 10;
+                this.player2.body.velocity.x += 4;
+              if(this.player2.x<=201 || this.player2.x>= 579){
+                this.BoolParedePlayer2 = false;
               }
               this.player2.angle = 15;
               //rightBtn.alpha = 0.6; 
-          }else if (this.game.input.keyboard.isDown(Phaser.Keyboard.S))
+      }else if (this.game.input.keyboard.isDown(Phaser.Keyboard.S))
           {
-              this.player2.body.velocity.y += 4;
+           
+              this.player2.body.velocity.y = 70;
+            
+              
+            
               this.player2.angle = 15;
               //rightBtn.alpha = 0.6;
-          }else if(this.game.input.keyboard.isDown(Phaser.Keyboard.W)){
-              this.player2.body.velocity.y -= 4;
+      }else if(this.game.input.keyboard.isDown(Phaser.Keyboard.W)){
+              this.player2.body.velocity.y -= 2;
               this.player2.angle = 15;
               
-          }else
-          {
-            this.player2.body.velocity.x = 0;  
-            this.player2.rotation = 0;
+      }else{
+            
+        this.playerParando(this.player2);
+            
       }
+       if(this.player2.y > 350){
+         this.player2.body.velocity.y = 0;
+       }
+
+
       if (this.game.input.keyboard.isDown(Phaser.Keyboard.LEFT))
           {
               this.player.body.velocity.x -= 4;
               this.player.angle = -15;
+              if(this.player.x>200 && this.player.x< 578){
+              this.BoolParedePlayer1 = false;
+              }
               //leftBtn.alpha = 0.6;
           }
           else if (this.game.input.keyboard.isDown(Phaser.Keyboard.RIGHT))
           {
               this.player.body.velocity.x += 4;
               this.player.angle = 15; 
+              if(this.player.x>200 && this.player.x< 578){
+              this.BoolParedePlayer1 = false;
+              }
           }else if (this.game.input.keyboard.isDown(Phaser.Keyboard.DOWN))
+          { 
+           
+              this.player.body.velocity.y = 70;
+              this.player.angle = 15;
+          }else if (this.game.input.keyboard.isDown(Phaser.Keyboard.UP))
           {
-              this.player.body.velocity.y += 4;
+              this.player.body.velocity.y -= 2;
               this.player.angle = 15;
           }
           else
           {
-            this.player2.rotation = 0;
-      }      
+            this.playerParando(this.player);
+      }
+      if(this.player.y > 350){  
+          this.player.body.velocity.y = 0;
+      }    
     },
   
-  hitParede: function(player) {
+  hitParede: function(player, tocouParede) {
     //play explosion sound
     
-    if(player.x<= 201 ){
-      player.x = 200;
-      player.y-= 3;
+    if(!tocouParede){
+     // player.x = 200;
+     tocouParede = true;
+     player.body.velocity.x = 0;
+      player.body.velocity.y = -100;
     }else{
-      player.x=578;
-      player.y-=3;
+     // player.x = 577;
+     tocouParede = true;
+      player.body.velocity.y = -100;
     }
+
     //make the player explode
     var emitter = this.game.add.emitter(player.x, player.y, 100);
     emitter.makeParticles('playerParticle');
     emitter.minParticleSpeed.setTo(-200, -200);
     emitter.maxParticleSpeed.setTo(200, 200);
     emitter.gravity = 0;
-    emitter.start(true, 1000, null, 100);
+    emitter.start(true, 1000, null, 10);
     
     //player.destroy();
 
@@ -280,23 +296,49 @@ SpaceHipster.Game.prototype = {
     player.kill();
     
   },
+  playerParando: function(player) {
+    if(player.body.velocity.x >0 ){
+              player.body.velocity.x =Math.round(player.body.velocity.x*0.95);  
+              player.rotation = 0;
+    }else if(player.body.velocity.x < 0){
+      player.body.velocity.x =Math.round(player.body.velocity.x * 0.95);  
+      player.rotation = 0;
+    }else{
+      player.rotation = 0;
+    }
+
+    if(player.body.velocity.y >0 ){
+              player.body.velocity.y =Math.round(player.body.velocity.y*0.95);  
+              player.rotation = 0;
+    }else if(player.body.velocity.x < 0){
+      player.body.velocity.y =Math.round(player.body.velocity.y *0.95);  
+      player.rotation = 0;
+    }else{
+      player.rotation = 0;
+    }
+    
+  },
   fogoTeto: function() {
     
-    var x = -70;
+    var x = 590;
     var y = -80;
 
     for(var i = 0; i<6; i++){
       
       var explosion1 = this.exp.create(x, y, 'fogoTeto');
-      var rnd = this.game.rnd.integerInRange(0, 24);
+      var rnd = Math.round((Math.random()*24 + 1));
       //[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18]
-      explosion1.animations.add('fire', [rnd, (rnd+1), (rnd+2), (rnd+3),(rnd+4),(rnd+5),(rnd+6)], 10, true);
+      var arrayC = [(rnd%24),((rnd+1)%24),((rnd+2)%24),((rnd+3)%24),((rnd+4)%24),((rnd+5)%24),((rnd+6)%24),((rnd+7)%24),((rnd+8)%24)];
+      //console.log(arrayC)
+      explosion1.animations.add('fire',arrayC, 10, true);
+      //explosion1.animations.add('fire', , 10, true);
+      
       //
       explosion1.animations.play('fire');
-      explosion1.scale.setTo(4);
+      explosion1.scale.setTo(3);
       //this.game.physics.arcade.enable(explosion1);
       explosion1.body.immovable = true;
-      x = x + 125;
+      x = x - 125;
     }
   },
   createRocksAndPowerUps: function() {
@@ -310,18 +352,17 @@ SpaceHipster.Game.prototype = {
 
     if(rnd == 100) {
       //create rock
-      rock = this.rock.create(positionX, 50, 'rock');
-      rock.scale.setTo(this.game.rnd.integerInRange(10, 20)/10);
+      var rock;
+      rock = this.rock.create(positionX, 0, 'rock');
+      rock.animations.add('roll', null, 10, true);
+      rock.animations.play('roll');
+      rock.scale.setTo(this.game.rnd.integerInRange(1, 2)/10);
 
       //physics properties
       rock.body.velocity.x = this.game.rnd.integerInRange(-20, 20);
       rock.body.velocity.y = this.game.rnd.integerInRange(50, 100);
       rock.body.immovable = true;
       rock.body.collideWorldBounds = false;
-      
-      //this.game.physics.arcade.enable(this.rock);
-      //this.rock.body.velocity.y = 100;
-
     }
 
     if(rndPowerUp == 100) {

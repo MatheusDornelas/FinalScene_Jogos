@@ -1,0 +1,5 @@
+Ajeitar ou trocar sprite do fogo do teto (OK)
+Colocar sons
+Tela inicial
+Escolher sprites de personagens
+Decidir e fazer o final
