@@ -1,6 +1,10 @@
 SpaceHipster.Endgame = function(){};
 
 SpaceHipster.Endgame.prototype = {
+  init: function(playerVencedor) {
+    this.playerVencedor = playerVencedor; 
+  },
+
   create: function() {
   	//show the space tile, repeated
     this.background = this.game.add.tileSprite(0, 0, this.game.width, this.game.height, 'space');
@@ -15,7 +19,7 @@ SpaceHipster.Endgame.prototype = {
     t.anchor.set(0.5);
 
     //highest score
-    text = "Winner: "+this.highestScore;
+    text = "Winner: " + String(this.playerVencedor);
     style = { font: "15px Arial", fill: "#fff", align: "center" };
   
     var h = this.game.add.text(this.game.width/2, this.game.height/2 + 50, text, style);

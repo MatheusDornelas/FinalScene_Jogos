@@ -81,7 +81,7 @@ SpaceHipster.Game.prototype = {
   this.rock.physicsBodyType = Phaser.Physics.ARCADE;
   this.game.physics.arcade.enable(this.rock);
 
-
+  this.game.time.events.add(Phaser.Timer.SECOND * 5, this.endGame, this);
 
   },
   update: function() {
@@ -374,5 +374,19 @@ SpaceHipster.Game.prototype = {
 
     }
 
-    },
+  },
+  endGame: function() {
+
+    var playerVencedor;
+
+    if(this.player.y > this.player2.y) {
+      // player 1 venceu
+      playerVencedor = "Player 1";
+    } else {
+      // player 2 venceu
+      playerVencedor = "Player 2";
+    }
+
+    this.state.start('Endgame', true, false, playerVencedor);
+  },
 };
